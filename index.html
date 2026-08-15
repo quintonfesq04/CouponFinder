@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Strongsville Coupon Finder</title>
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1>🛒 Strongsville Coupon Finder</h1>
+      <p class="tagline">Nearby stores &amp; your saved coupons — centered near 19395 Knowlton Pkwy, Strongsville, OH</p>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="stores" role="tab" aria-selected="true">Nearby Stores</button>
+    <button class="tab-btn" data-tab="coupons" role="tab" aria-selected="false">My Coupons</button>
+  </nav>
+
+  <main class="container">
+    <!-- STORES TAB -->
+    <section id="tab-stores" class="tab-panel active">
+      <div class="toolbar">
+        <input type="search" id="store-search" placeholder="Search stores (e.g. Giant Eagle, Target)..." aria-label="Search stores" />
+        <select id="store-category-filter" aria-label="Filter by category">
+          <option value="">All categories</option>
+        </select>
+        <select id="store-sort" aria-label="Sort stores">
+          <option value="distance">Sort: Closest first</option>
+          <option value="name">Sort: Name (A–Z)</option>
+          <option value="category">Sort: Category</option>
+        </select>
+      </div>
+      <p class="hint">Distances are rough estimates for reference only. Use "Directions" for accurate, turn-by-turn results.</p>
+      <div id="store-list" class="card-grid"></div>
+    </section>
+
+    <!-- COUPONS TAB -->
+    <section id="tab-coupons" class="tab-panel">
+      <form id="coupon-form" class="coupon-form">
+        <h2>Add a Coupon</h2>
+        <div class="form-row">
+          <label for="c-store">Store</label>
+          <input list="store-options" id="c-store" name="store" placeholder="e.g. Giant Eagle" required />
+          <datalist id="store-options"></datalist>
+        </div>
+        <div class="form-row">
+          <label for="c-title">Description</label>
+          <input type="text" id="c-title" name="title" placeholder="e.g. $5 off $25 purchase" required />
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="c-category">Category</label>
+            <select id="c-category" name="category">
+              <option>Grocery</option>
+              <option>Discount / Big Box</option>
+              <option>Pharmacy</option>
+              <option>Warehouse Club</option>
+              <option>Home Improvement</option>
+              <option>Department Store</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="c-code">Code (optional)</label>
+            <input type="text" id="c-code" name="code" placeholder="e.g. SAVE5" />
+          </div>
+        </div>
+        <div class="form-row two-col">
+          <div>
+            <label for="c-expires">Expires</label>
+            <input type="date" id="c-expires" name="expires" required />
+          </div>
+          <div>
+            <label for="c-notes">Notes (optional)</label>
+            <input type="text" id="c-notes" name="notes" placeholder="e.g. in-store only" />
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Save Coupon</button>
+      </form>
+
+      <div class="toolbar">
+        <input type="search" id="coupon-search" placeholder="Search your coupons..." aria-label="Search coupons" />
+        <select id="coupon-filter" aria-label="Filter coupons">
+          <option value="active">Active only</option>
+          <option value="expiring">Expiring soon (7 days)</option>
+          <option value="expired">Expired</option>
+          <option value="all">All</option>
+        </select>
+        <select id="coupon-sort" aria-label="Sort coupons">
+          <option value="expires">Sort: Expiring soonest</option>
+          <option value="store">Sort: Store (A–Z)</option>
+          <option value="added">Sort: Recently added</option>
+        </select>
+      </div>
+      <div id="coupon-list" class="card-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>All store links open the retailer's own site. Coupons you add are stored only in this browser (no account, no server, no AI).</p>
+  </footer>
+
+  <script src="js/stores.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
