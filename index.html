@@ -17,6 +17,7 @@
   <nav class="tabs" role="tablist">
     <button class="tab-btn active" data-tab="stores" role="tab" aria-selected="true">Nearby Stores</button>
     <button class="tab-btn" data-tab="coupons" role="tab" aria-selected="false">My Coupons</button>
+    <button class="tab-btn" data-tab="list" role="tab" aria-selected="false">Shopping List</button>
   </nav>
 
   <main class="container">
@@ -97,6 +98,27 @@
       </div>
       <div id="coupon-list" class="card-grid"></div>
     </section>
+
+    <!-- SHOPPING LIST TAB -->
+    <section id="tab-list" class="tab-panel">
+      <p class="hint">Prices below are rough estimates for comparing stores — not live data, and they vary by
+        location and change over time. Click any price in the comparison table to correct it to what you've
+        actually seen; your correction is saved in this browser and used from then on.</p>
+
+      <div class="toolbar">
+        <input type="text" id="item-search" list="item-options" placeholder="Type a food or item you need (e.g. Milk, Bananas, Chicken Breast)..." />
+        <datalist id="item-options"></datalist>
+        <button type="button" id="item-search-btn" class="btn-primary">Compare Prices</button>
+      </div>
+
+      <div id="price-comparison"></div>
+
+      <div class="list-header">
+        <h2>My Shopping List</h2>
+        <button type="button" id="clear-list-btn" class="btn-danger">Clear List</button>
+      </div>
+      <div id="shopping-list"></div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -104,6 +126,7 @@
   </footer>
 
   <script src="js/stores.js"></script>
+  <script src="js/prices.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -120,3 +120,17 @@ const STORES = [
 ];
 
 const STORE_NAMES = STORES.map((s) => s.name);
+
+// Stores that typically sell groceries — used by the Shopping List price comparison.
+// (Pharmacy/home-improvement/department stores are excluded from grocery price comparisons.)
+const GROCERY_STORE_NAMES = [
+  "Aldi",
+  "Walmart Supercenter",
+  "Dollar General",
+  "Marc's",
+  "Meijer",
+  "Target",
+  "Giant Eagle",
+  "BJ's Wholesale Club",
+  "Heinen's",
+];
