@@ -130,10 +130,12 @@ body {
   background: #fff;
   cursor: pointer;
 }
-.card-actions a.primary {
+.card-actions a.primary, .card-actions button.primary {
   background: var(--green);
   color: #fff;
+  border-color: var(--green);
 }
+.card-grid .comparison-title { grid-column: 1 / -1; }
 
 .coupon-card { position: relative; }
 .badge {
@@ -233,13 +235,13 @@ body {
 .price-table tr:last-child td { border-bottom: none; }
 .price-table th { background: #f0efe9; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.02em; color: var(--text-muted); }
 .price-table tr.best-price { background: #eef7ef; }
-.price-table .price-cell {
+.price-cell {
   font-variant-numeric: tabular-nums;
   cursor: pointer;
   border-bottom: 1px dashed var(--text-muted);
 }
-.price-table .price-cell.no-price { color: var(--text-muted); cursor: default; border-bottom: none; font-style: italic; }
-.price-table input.price-edit {
+.price-cell.no-price { color: var(--text-muted); cursor: default; border-bottom: none; font-style: italic; }
+input.price-edit {
   width: 5.5rem;
   padding: 0.2rem 0.35rem;
   border: 1px solid var(--green);

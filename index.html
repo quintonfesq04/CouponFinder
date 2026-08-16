@@ -24,7 +24,7 @@
     <!-- STORES TAB -->
     <section id="tab-stores" class="tab-panel active">
       <div class="toolbar">
-        <input type="search" id="store-search" placeholder="Search stores (e.g. Giant Eagle, Target)..." aria-label="Search stores" />
+        <input type="search" id="store-search" list="item-options" placeholder="Search for an item you need (e.g. Milk, Bananas, Chicken Breast)..." aria-label="Search for an item" />
         <select id="store-category-filter" aria-label="Filter by category">
           <option value="">All categories</option>
         </select>
@@ -34,7 +34,7 @@
           <option value="category">Sort: Category</option>
         </select>
       </div>
-      <p class="hint">Distances are rough estimates for reference only. Use "Directions" for accurate, turn-by-turn results.</p>
+      <p class="hint">Type a grocery item to see which nearby stores carry it, cheapest first (category filter still applies). Leave the search blank to browse the full directory, sortable by distance, name, or category. Distances are estimates; use "Directions" for accurate results.</p>
       <div id="store-list" class="card-grid"></div>
     </section>
 

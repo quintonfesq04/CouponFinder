@@ -44,16 +44,11 @@ function populateStoreDatalist() {
   });
 }
 
-function renderStores() {
-  const query = document.getElementById("store-search").value.trim().toLowerCase();
+function renderStoreDirectory(container) {
   const category = document.getElementById("store-category-filter").value;
   const sortBy = document.getElementById("store-sort").value;
 
-  let list = STORES.filter((s) => {
-    const matchesQuery = !query || s.name.toLowerCase().includes(query) || s.area.toLowerCase().includes(query);
-    const matchesCategory = !category || s.category === category;
-    return matchesQuery && matchesCategory;
-  });
+  let list = STORES.filter((s) => !category || s.category === category);
 
   list.sort((a, b) => {
     if (sortBy === "name") return a.name.localeCompare(b.name);
@@ -61,11 +56,8 @@ function renderStores() {
     return a.approxMiles - b.approxMiles;
   });
 
-  const container = document.getElementById("store-list");
-  container.innerHTML = "";
-
   if (list.length === 0) {
-    container.innerHTML = `<div class="empty-state">No stores match your search.</div>`;
+    container.innerHTML = `<div class="empty-state">No stores match this filter.</div>`;
     return;
   }
 
@@ -84,6 +76,96 @@ function renderStores() {
     `;
     container.appendChild(card);
   });
+}
+
+function renderItemSearchResults(container, query) {
+  const category = document.getElementById("store-category-filter").value;
+  const item = ITEM_CATALOG.find((i) => i.name.toLowerCase().includes(query.toLowerCase()));
+
+  if (!item) {
+    container.innerHTML = `<div class="empty-state">No item matches "${query}". Try milk, eggs, bread, chicken breast, produce, pantry, or household staples &mdash; or clear the search to browse every nearby store.</div>`;
+    return;
+  }
+
+  const title = document.createElement("h3");
+  title.className = "comparison-title";
+  title.textContent = `${item.name} - cheapest nearby first`;
+  container.appendChild(title);
+
+  let rows = GROCERY_STORE_NAMES
+    .map((storeName) => ({ store: STORES.find((s) => s.name === storeName), price: getPrice(item.name, storeName) }))
+    .filter((r) => r.price !== null)
+    .filter((r) => !category || r.store.category === category);
+
+  rows.sort((a, b) => a.price - b.price);
+
+  if (rows.length === 0) {
+    container.innerHTML += `<div class="empty-state">No nearby store has price data for "${item.name}" yet.</div>`;
+    return;
+  }
+
+  rows.forEach(({ store, price }) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <span class="meta">${store.category}</span>
+      <h3>${store.name}</h3>
+      <span class="distance">~${store.approxMiles} mi &middot; ${store.area}</span>
+      <span class="distance"><span class="price-cell" data-store="${store.name}">$${price.toFixed(2)}</span> &middot; ${item.name}</span>
+      <div class="card-actions">
+        <button type="button" class="add-btn primary" data-store="${store.name}" data-price="${price}">Add to List</button>
+        <a href="${directionsUrl(store.name)}" target="_blank" rel="noopener">Directions</a>
+        <a href="${store.website}" target="_blank" rel="noopener">Website</a>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  container.querySelectorAll(".price-cell").forEach((cell) => {
+    cell.addEventListener("click", () => {
+      const store = cell.dataset.store;
+      const current = parseFloat(cell.textContent.replace("$", ""));
+      const input = document.createElement("input");
+      input.type = "number";
+      input.step = "0.01";
+      input.min = "0";
+      input.className = "price-edit";
+      input.value = current;
+      cell.replaceWith(input);
+      input.focus();
+      input.select();
+      const commit = () => {
+        const newPrice = parseFloat(input.value);
+        if (!isNaN(newPrice) && newPrice >= 0) {
+          setPriceOverride(item.name, store, newPrice);
+        }
+        renderStores();
+      };
+      input.addEventListener("blur", commit);
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") input.blur();
+        if (e.key === "Escape") renderStores();
+      });
+    });
+  });
+
+  container.querySelectorAll(".add-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      addToShoppingList(item.name, btn.dataset.store, parseFloat(btn.dataset.price));
+    });
+  });
+}
+
+function renderStores() {
+  const query = document.getElementById("store-search").value.trim();
+  const container = document.getElementById("store-list");
+  container.innerHTML = "";
+
+  if (query) {
+    renderItemSearchResults(container, query);
+  } else {
+    renderStoreDirectory(container);
+  }
 }
 
 ["store-search", "store-category-filter", "store-sort"].forEach((id) => {
